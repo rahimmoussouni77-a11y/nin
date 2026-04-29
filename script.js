@@ -1,128 +1,93 @@
 const CuraApp = {
     cart: [],
+
+    // البيانات الكاملة مع الأسماء والوصف بالفرنسية
     cafeData: [
-        { id: 1, name: "كابوتشينو ذهبي", price: 550, icon: "☕" },
-        { id: 2, name: "موكا باردة", price: 600, icon: "🥤" },
-        { id: 3, name: "كرواسون شوكولا", price: 400, icon: "🥐" },
-        { id: 4, name: "تشيز كيك نيويورك", price: 750, icon: "🍰" },
-        { id: 5, name: "ميلك شيك كورا", price: 650, icon: "🍦" }
+        { id: 1, name: "Cappuccino", price: 450, img: "cap.jpg", desc: "Café moussé avec crème onctueuse" },
+        { id: 2, name: "Gâteau", price: 750, img: "Cake.jpg", desc: "Tranche de gâteau au chocolat noir" },
+        { id: 3, name: "Muffins", price: 350, img: "Muffins.jpg", desc: "Muffin moelleux aux pépites" },
+        { id: 4, name: "Milkshake", price: 600, img: "Milkshake.jpg", desc: "Boisson lactée fraîche et sucrée" },
+        { id: 5, name: "Cheesecake", price: 800, img: "Cheesecake.jpg", desc: "Dessert au fromage frais et fruits" },
+        { id: 6, name: "Espresso", price: 500, img: "Espresso.jpg", desc: "Café court et intense" },
+        { id: 7, name: "Latte", price: 500, img: "Latte.jpg", desc: "Café au lait doux et velouté" },
+        { id: 8, name: "Matcha", price: 500, img: "Matcha.jpg", desc: "Thé vert japonais traditionnel" },
+        { id: 9, name: "Mojito", price: 400, img: "Mojito.jpg", desc: "Cocktail rafraîchissant menthe-citron" },
+        { id: 10, name: "Smoothie", price: 550, img: "Smoothie.jpg", desc: "Mix de fruits frais naturels" },
+        { id: 11, name: "Brownie", price: 300, img: "Brownie.jpg", desc: "Chocolat fondant avec éclats de noix" },
+        { id: 12, name: "Bubble Tea", price: 600, img: "Bubble tea.jpg", desc: "Thé aux perles de tapioca" },
+        { id: 13, name: "Trompe-l'œil", price: 700, img: "Trompleille.jpg", desc: "Pâtisserie créative spéciale Cura" }
     ],
-    stickers: ["☕", "❤️", "⭐", "🔥", "🌈", "🍕", "🍔", "📱", "💻", "✨", "🌸", "🌊"],
 
     init() {
+        console.log("Cura App Started...");
         this.renderCafe();
-        this.renderStickers();
-        console.log("Cura OS Ready.");
     },
 
+    // عرض المنيو في الصفحة
     renderCafe() {
         const grid = document.getElementById('cafe-items-grid');
+        if (!grid) return;
+
         grid.innerHTML = this.cafeData.map(item => `
             <div class="cafe-card">
-                <div class="icon">${item.icon}</div>
-                <h3>${item.name}</h3>
-                <p>${item.price} DA</p>
-                <button class="dev-btn" onclick="CuraApp.addToCart('${item.name}', ${item.price})">إضافة للطلب</button>
+                <div class="img-holder">
+                    <img src="${item.img}" alt="${item.name}"
+                         onerror="this.src='https://via.placeholder.com/300x200?text=Cura+Food'">
+                </div>
+
+                <div class="info">
+                    <h3>${item.name}</h3>
+                    <p class="description">${item.desc}</p>
+                    <span class="price-tag">${item.price} DA</span>
+
+                    <button class="pay-btn"
+                        onclick="CuraApp.addToCart('${item.name.replace(/'/g, "\\'")}', ${item.price})">
+                        Ajouter au Panier
+                    </button>
+                </div>
             </div>
         `).join('');
     },
 
-    renderStickers() {
-        const grid = document.getElementById('stickers-gallery');
-        grid.innerHTML = this.stickers.map(st => `
-            <div class="st-item" onclick="Studio.addSticker('${st}')">${st}</div>
-        `).join('');
-    },
-
+    // إضافة منتج للسلة
     addToCart(name, price) {
         this.cart.push({ name, price });
-        document.getElementById('cart-qty').innerText = this.cart.length;
-        this.updateTotal();
+        this.updateUI();
     },
 
-    updateTotal() {
+    // تحديث واجهة المستخدم (العداد والمجموع)
+    updateUI() {
+        // تحديث عداد الأيقونة
+        const qty = document.getElementById('cart-qty');
+        if (qty) qty.innerText = this.cart.length;
+
+        // تحديث المجموع المالي
         const total = this.cart.reduce((sum, item) => sum + item.price, 0);
-        document.getElementById('total-val').innerText = total;
+        const totalEl = document.getElementById('total-val');
+        if (totalEl) totalEl.innerText = total;
+
+        // تحديث قائمة المشتريات في الجانب
+        const summary = document.getElementById('cart-summary');
+        if (summary) {
+            summary.innerHTML = this.cart.map((item, index) => `
+                <div class="cart-item-row">
+                    <span>${item.name}</span>
+                    <span class="item-price">${item.price} DA</span>
+                </div>
+            `).join('');
+        }
     }
 };
 
-const Studio = {
-    setDevice(type) {
-        const board = document.getElementById('drawing-board');
-        board.className = `device-${type}`;
-    },
-
-    addSticker(icon) {
-        const layer = document.getElementById('sticker-layer');
-        const div = document.createElement('div');
-        div.className = 'drag-element';
-        div.innerHTML = icon;
-        div.style.fontSize = '40px';
-        div.style.left = '50px';
-        div.style.top = '50px';
-        this.makeDraggable(div);
-        div.ondblclick = () => div.remove();
-        layer.appendChild(div);
-    },
-
-    makeDraggable(el) {
-        let x = 0, y = 0, px = 0, py = 0;
-        el.onmousedown = (e) => {
-            e.preventDefault();
-            px = e.clientX; py = e.clientY;
-            document.onmousemove = (e) => {
-                x = px - e.clientX; y = py - e.clientY;
-                px = e.clientX; py = e.clientY;
-                el.style.top = (el.offsetTop - y) + "px";
-                el.style.left = (el.offsetLeft - x) + "px";
-            };
-            document.onmouseup = () => { document.onmousemove = null; };
-        };
-    },
-
-    reset() {
-        document.getElementById('sticker-layer').innerHTML = "";
-        document.getElementById('print-layer').innerHTML = "";
-    },
-
-    confirm() {
-        alert("تم حفظ التصميم بنجاح! سيتم إضافته إلى سلتك.");
-        CuraApp.addToCart("تصميم مخصص", 1500);
-    }
-};
-
-const Printer = {
-    upload(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.className = 'drag-element';
-            img.style.width = '100px';
-            Studio.makeDraggable(img);
-            img.ondblclick = () => img.remove();
-            document.getElementById('print-layer').appendChild(img);
-        };
-        reader.readAsDataURL(file);
-    }
-};
-
+// وظائف إضافية للموقع
 const Router = {
-    switch(pageId) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById(`view-${pageId}`).classList.add('active');
-        event.currentTarget.classList.add('active');
+    switch(page) {
+        console.log("Navigating to: " + page);
+        // يمكنك هنا إضافة كود لإخفاء وإظهار الأقسام
     }
 };
 
-const Payment = {
-    select(method) {
-        document.querySelectorAll('.method').forEach(m => m.classList.remove('active'));
-        document.getElementById(`${method}-method`).classList.add('active');
-    },
-    process() {
-        alert("جاري التحقق من عملية الدفع... شكراً لثقتك بـ CURA!");
-    }
-};
+function toggleCart() {
+    const panel = document.getElementById('cart-panel');
+    panel.classList.toggle('active');
+}
