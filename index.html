@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CURA PLATINUM | Creative Studio & Café</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="CuraApp.init()">
+
+<header class="app-header">
+    <div class="logo">CURA<span>SPACE</span></div>
+    <nav class="main-nav">
+        <button class="nav-item active" onclick="Router.switch('cafe')"><i class="fas fa-mug-hot"></i> المقهى</button>
+        <button class="nav-item" onclick="Router.switch('studio')"><i class="fas fa-wand-magic-sparkles"></i> الستوديو</button>
+        <button class="nav-item" onclick="Router.switch('cart')"><i class="fas fa-credit-card"></i> الدفع</button>
+    </nav>
+    <div class="header-right">
+        <select id="lang-picker" onchange="I18n.change(this.value)">
+            <option value="ar">العربية</option>
+            <option value="en">English</option>
+        </select>
+        <div class="cart-icon" onclick="Router.switch('cart')">
+            <i class="fas fa-shopping-bag"></i>
+            <span id="cart-qty">0</span>
+        </div>
+    </div>
+</header>
+
+<main id="app-container">
+    <section id="view-cafe" class="page active">
+        <div class="section-header">
+            <h1>قائمة المقهى العصري</h1>
+            <p>مأكولات ومشروبات مختارة بعناية لتناسب إبداعك</p>
+        </div>
+        <div id="cafe-items-grid" class="cafe-grid"></div>
+    </section>
+
+    <section id="view-studio" class="page">
+        <div class="studio-container">
+            <aside class="studio-tools">
+                <h3 class="tool-title">1. اختر الجهاز</h3>
+                <div class="device-selector">
+                    <button onclick="Studio.setDevice('iphone')" class="dev-btn"><i class="fas fa-mobile-alt"></i> هاتف</button>
+                    <button onclick="Studio.setDevice('macbook')" class="dev-btn"><i class="fas fa-laptop"></i> لابتوب</button>
+                    <button onclick="Studio.setDevice('bag')" class="dev-btn"><i class="fas fa-shopping-bag"></i> حقيبة</button>
+                </div>
+
+                <h3 class="tool-title">2. الطابعة الذكية</h3>
+                <label class="upload-btn">
+                    <i class="fas fa-print"></i> ارفع صورتك للطباعة
+                    <input type="file" hidden onchange="Printer.upload(event)">
+                </label>
+
+                <h3 class="tool-title">3. مكتبة الستيكرات</h3>
+                <div id="stickers-gallery" class="stickers-grid"></div>
+            </aside>
+
+            <div class="canvas-area">
+                <div id="drawing-board" class="device-iphone">
+                    <div id="sticker-layer"></div>
+                    <div id="print-layer"></div>
+                </div>
+                <div class="canvas-controls">
+                    <button class="action-btn clear" onclick="Studio.reset()"><i class="fas fa-undo"></i> مسح</button>
+                    <button class="action-btn save" onclick="Studio.confirm()"><i class="fas fa-check"></i> حفظ التصميم</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="view-cart" class="page">
+        <div class="payment-wrapper">
+            <div class="checkout-form">
+                <h2>إتمام عملية الشراء</h2>
+                <div id="cart-summary" class="summary-list"></div>
+                <div class="payment-methods">
+                    <div class="method active" id="card-method" onclick="Payment.select('card')">بطاقة بنكية</div>
+                    <div class="method" id="bm-method" onclick="Payment.select('bm')">BaridiMob</div>
+                </div>
+                <div class="input-group">
+                    <input type="text" placeholder="الاسم الكامل">
+                    <input type="text" placeholder="رقم الهاتف">
+                </div>
+                <button class="pay-btn" onclick="Payment.process()">تأكيد الدفع | <span id="total-val">0</span> DA</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
