@@ -3,53 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CURA SPACE | Creative Studio & Café</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>CURA SPACE | المقهى والاستوديو</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body onload="CuraApp.init()">
+<body>
 
 <header class="app-header">
-    <div class="logo-container">
-        <img src="logo.jpg" alt="Cura Logo" class="main-logo">
-        <div class="brand-name">CURA<span>SPACE</span></div>
+    <div class="logo-area">
+        <img src="logo.jpg" class="logo" alt="Cura" onerror="this.src='https://via.placeholder.com/50?text=Cura'">
+        <span class="brand">CURA <span>SPACE</span></span>
     </div>
-
-    <nav class="main-nav">
-        <button class="nav-item active" onclick="Router.switch('cafe')">
-            <i class="fas fa-mug-hot"></i> المقهى
-        </button>
-        <button class="nav-item" onclick="Router.switch('studio')">
-            <i class="fas fa-wand-magic-sparkles"></i> الاستوديو
-        </button>
+    <nav class="nav-tabs">
+        <button id="btn-cafe" class="nav-btn active" onclick="openTab('cafe')"><i class="fas fa-mug-hot"></i> المقهى</button>
+        <button id="btn-studio" class="nav-btn" onclick="openTab('studio')"><i class="fas fa-palette"></i> الاستوديو</button>
+        <button id="btn-booking" class="nav-btn" onclick="openTab('booking')"><i class="fas fa-chair"></i> الحجز</button>
     </nav>
-
-    <div class="header-right">
-        <div class="cart-icon" onclick="toggleCart()">
-            <i class="fas fa-shopping-bag"></i>
-            <span id="cart-qty">0</span>
-        </div>
+    <div class="cart-trigger" onclick="toggleCart()">
+        <i class="fas fa-shopping-bag"></i>
+        <span id="count">0</span>
     </div>
-</header> 
+</header>
 
 <main class="container">
-    <section id="cafe-section">
-        <h2 class="section-title">Menu du Café</h2>
-        <div id="cafe-items-grid" class="items-grid">
+    <!-- قسم المقهى -->
+    <section id="cafe" class="tab-content active">
+        <h2 class="section-title">قائمة المقهى <span>Menu</span></h2>
+        <div class="grid">
+            <div class="card"><img src="cap.jpg" onerror="this.src='https://via.placeholder.com/150?text=Cappuccino'"><div class="info"><h3>Cappuccino</h3><button class="add-btn" onclick="addItem('Cappuccino', 450)">450 DA</button></div></div>
+            <div class="card"><img src="Cake.jpg" onerror="this.src='https://via.placeholder.com/150?text=Gâteau'"><div class="info"><h3>Gâteau</h3><button class="add-btn" onclick="addItem('Gâteau', 750)">750 DA</button></div></div>
+            <div class="card"><img src="Muffins.jpg" onerror="this.src='https://via.placeholder.com/150?text=Muffins'"><div class="info"><h3>Muffins</h3><button class="add-btn" onclick="addItem('Muffins', 350)">350 DA</button></div></div>
+            <div class="card"><img src="Milkshake.jpg" onerror="this.src='https://via.placeholder.com/150?text=Milkshake'"><div class="info"><h3>Milkshake</h3><button class="add-btn" onclick="addItem('Milkshake', 600)">600 DA</button></div></div>
+            <div class="card"><img src="Cheesecake.jpg" onerror="this.src='https://via.placeholder.com/150?text=Cheesecake'"><div class="info"><h3>Cheesecake</h3><button class="add-btn" onclick="addItem('Cheesecake', 800)">800 DA</button></div></div>
+            <div class="card"><img src="Espresso.jpg" onerror="this.src='https://via.placeholder.com/150?text=Espresso'"><div class="info"><h3>Espresso</h3><button class="add-btn" onclick="addItem('Espresso', 500)">500 DA</button></div></div>
+            <div class="card"><img src="Latte.jpg" onerror="this.src='https://via.placeholder.com/150?text=Latte'"><div class="info"><h3>Latte</h3><button class="add-btn" onclick="addItem('Latte', 500)">500 DA</button></div></div>
+            <div class="card"><img src="Matcha.jpg" onerror="this.src='https://via.placeholder.com/150?text=Matcha'"><div class="info"><h3>Matcha</h3><button class="add-btn" onclick="addItem('Matcha', 500)">500 DA</button></div></div>
+            <div class="card"><img src="Mojito.jpg" onerror="this.src='https://via.placeholder.com/150?text=Mojito'"><div class="info"><h3>Mojito</h3><button class="add-btn" onclick="addItem('Mojito', 400)">400 DA</button></div></div>
+            <div class="card"><img src="Smoothie.jpg" onerror="this.src='https://via.placeholder.com/150?text=Smoothie'"><div class="info"><h3>Smoothie</h3><button class="add-btn" onclick="addItem('Smoothie', 550)">550 DA</button></div></div>
+            <div class="card"><img src="Brownie.jpg" onerror="this.src='https://via.placeholder.com/150?text=Brownie'"><div class="info"><h3>Brownie</h3><button class="add-btn" onclick="addItem('Brownie', 300)">300 DA</button></div></div>
+            <div class="card"><img src="Bubble tea.jpg" onerror="this.src='https://via.placeholder.com/150?text=Bubble+Tea'"><div class="info"><h3>Bubble Tea</h3><button class="add-btn" onclick="addItem('Bubble Tea', 600)">600 DA</button></div></div>
+            <div class="card"><img src="Trompleille.jpg" onerror="this.src='https://via.placeholder.com/150?text=Trompe-loeil'"><div class="info"><h3>Trompe-l'œil</h3><button class="add-btn" onclick="addItem('Trompe-l\'œil', 700)">700 DA</button></div></div>
         </div>
     </section>
 
-    <aside id="cart-panel" class="cart-sidebar">
-        <h3>Votre Commande (طلباتك)</h3>
-        <div id="cart-summary"></div>
-        <div class="cart-total">
-            <span>Total:</span>
-            <span id="total-val">0</span> DA
+    <!-- قسم الاستوديو (كامل بـ 14 تصميم) -->
+    <section id="studio" class="tab-content" style="display: none;">
+        <h2 class="section-title">استوديو التصميم <span>Studio</span></h2>
+        <div class="studio-main-options">
+            <div class="opt-card" onclick="showStudioSection('ready-designs')"><i class="fas fa-images"></i><h3>التصاميم الجاهزة</h3></div>
+            <div class="opt-card highlight" onclick="showStudioSection('custom-upload')"><i class="fas fa-upload"></i><h3>تصميم صورتك</h3></div>
         </div>
-        <button class="checkout-btn">تأكيد الطلب</button>
-    </aside>
+
+        <div id="ready-designs" class="grid" style="display: none;">
+            <!-- هنا تم إضافة جميع التصاميم من 1 إلى 14 -->
+            <div class="card"><img src="1.jpg" onerror="this.src='https://via.placeholder.com/150?text=Design+1'"><div class="info"><h3>تصميم 1</h3><button class="add-btn" onclick="addItem('تصميم 1', 1200)">1200 DA</button></div></div>
+            <div class="card"><img src="2.jpg" onerror="this.src='https://via.placeholder.com/150?text=Design+2'"><div class="info"><h3>تصميم 2</h3><button class="add-btn" onclick="addItem('تصميم 2', 1200)">1200 DA</button></div></div>
+            <div class="card"><img src="3.jpg" onerror="this.src='https://via.placeholder.com/150?text=Design+3'"><div class="info"><h3>تصميم 3</h3><button class="add-btn" onclick="addItem('تصميم 3', 1200)">1200 DA</button></div></div>
+            <div class="card"><img src="4.jpg" onerror="this.src='https://via.placeholder.com/150?text=Design+4'"><div class="info"><h3>تصميم 4</h3><button class="add-btn" onclick="addItem('تصميم 4', 1200)">1200 DA</button></div></div>
+            <div class="card"><img src="5.jpg" onerror="this.src='https://via.placeholder.com/150?text=Design+5'"><div class="info"><h3>تصميم 5</h3><button class="add-btn" onclick="addItem('تصميم 5', 1200)">1200 DA</button></div></div>
+            <div class="card"><img src="6.jpg" onerror="this.src='https://via.placeholder.com/150?text=Design+6'"><div class="info"><h3>تصميم 6</h3><button class="add-btn" onclick="addItem('تصميم 6', 1200)">1200 DA</button></div></div>
+            <div class="card"><img src="7.jpg" onerror="this.src='https://via.placeholder.com/150?text=Design+7'"><div class="info"><h3>تصميم 7</h3><button class="add-btn" onclick="addItem('تصميم 7', 1200)">1200 DA</button></div></div>
+            <div class="card"><img src="8.jpg" onerror="this.src='https://via.placeholder.com/150?text=Design+8'"><div class="info"><h3>تصميم 8</h3><button class="add-btn" onclick="addItem('تصميم 8', 1200)">1200 DA</button></div></div>
+            <div class="card"><img src="9.jpg" onerror="this.src='https://via.placeholder.com/150?text=Design+9'"><div class="info"><h3>تصميم 9</h3><button class="add-btn" onclick="addItem('تصميم 9', 1200)">1200 DA</button></div></div>
+            <div class="card"><img src="10.jpg" onerror="this.src='https://via.placeholder.com/150?text=Design+10'"><div class="info"><h3>تصميم 10</h3><button class="add-btn" onclick="addItem('تصميم 10', 1200)">1200 DA</button></div></div>
+            <div class="card"><img src="11.jpg" onerror="this.src='https://via.placeholder.com/150?text=Design+11'"><div class="info"><h3>تصميم 11</h3><button class="add-btn" onclick="addItem('تصميم 11', 1200)">1200 DA</button></div></div>
+            <div class="card"><img src="12.jpg" onerror="this.src='https://via.placeholder.com/150?text=Design+12'"><div class="info"><h3>تصميم 12</h3><button class="add-btn" onclick="addItem('تصميم 12', 1200)">1200 DA</button></div></div>
+            <div class="card"><img src="13.jpg" onerror="this.src='https://via.placeholder.com/150?text=Design+13'"><div class="info"><h3>تصميم 13</h3><button class="add-btn" onclick="addItem('تصميم 13', 1200)">1200 DA</button></div></div>
+            <div class="card"><img src="14.jpg" onerror="this.src='https://via.placeholder.com/150?text=Design+14'"><div class="info"><h3>تصميم 14</h3><button class="add-btn" onclick="addItem('تصميم 14', 1200)">1200 DA</button></div></div>
+        </div>
+
+        <div id="custom-upload" class="upload-area" style="display: none; text-align: center;">
+            <div class="upload-card">
+                <i class="fas fa-camera" style="font-size:3rem; color:#bc6c25"></i>
+                <h3>ارفع صورتك الخاصة</h3>
+                <input type="file" id="user-file" hidden onchange="previewImage(event)">
+                <button class="add-btn" style="margin:20px 0" onclick="document.getElementById('user-file').click()">اختر صورة</button>
+                <div id="preview-container"></div>
+                <button class="add-btn" onclick="addItem('تصميم شخصي', 1500)">إضافة الطلب - 1500 DA</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم الحجز -->
+    <section id="booking" class="tab-content" style="display: none;">
+        <h2 class="section-title">حجز طاولة <span>Booking</span></h2>
+        <div class="booking-form">
+            <input type="text" id="res-name" placeholder="اسمك الكامل">
+            <input type="datetime-local" id="res-time">
+            <button class="add-btn" onclick="confirmBooking()">تأكيد الحجز</button>
+        </div>
+    </section>
 </main>
+
+<!-- سلة المشتريات -->
+<div id="cart" class="cart-sidebar">
+    <div class="cart-header"><h3>سلتك</h3><button onclick="toggleCart()">X</button></div>
+    <div id="cart-list"></div>
+    <div class="cart-footer">
+        <div class="total-box">المجموع: <span id="total-price">0</span> DA</div>
+        <div class="cart-actions">
+            <button class="pay-btn" onclick="checkout('عند الاستلام')" style="background:#27ae60">دفع عند الاستلام</button>
+            <button class="pay-btn" onclick="checkout('البطاقة')" style="background:#2980b9">دفع بالبطاقة</button>
+            <button class="cancel-btn" onclick="clearCart()">إلغاء الطلب</button>
+        </div>
+    </div>
+</div>
 
 <script src="script.js"></script>
 </body>
