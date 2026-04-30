@@ -47,7 +47,7 @@
         </div>
     </section>
 
-    <!-- قسم الاستوديو (كامل بـ 14 تصميم) -->
+    <!-- قسم الاستوديو -->
     <section id="studio" class="tab-content" style="display: none;">
         <h2 class="section-title">استوديو التصميم <span>Studio</span></h2>
         <div class="studio-main-options">
@@ -56,7 +56,6 @@
         </div>
 
         <div id="ready-designs" class="grid" style="display: none;">
-            <!-- هنا تم إضافة جميع التصاميم من 1 إلى 14 -->
             <div class="card"><img src="1.jpg" onerror="this.src='https://via.placeholder.com/150?text=Design+1'"><div class="info"><h3>تصميم 1</h3><button class="add-btn" onclick="addItem('تصميم 1', 1200)">1200 DA</button></div></div>
             <div class="card"><img src="2.jpg" onerror="this.src='https://via.placeholder.com/150?text=Design+2'"><div class="info"><h3>تصميم 2</h3><button class="add-btn" onclick="addItem('تصميم 2', 1200)">1200 DA</button></div></div>
             <div class="card"><img src="3.jpg" onerror="this.src='https://via.placeholder.com/150?text=Design+3'"><div class="info"><h3>تصميم 3</h3><button class="add-btn" onclick="addItem('تصميم 3', 1200)">1200 DA</button></div></div>
@@ -90,8 +89,11 @@
         <h2 class="section-title">حجز طاولة <span>Booking</span></h2>
         <div class="booking-form">
             <input type="text" id="res-name" placeholder="اسمك الكامل">
+            <input type="tel" id="res-phone" placeholder="رقم هاتفك (للتواصل معك)">
             <input type="datetime-local" id="res-time">
-            <button class="add-btn" onclick="confirmBooking()">تأكيد الحجز</button>
+            <button class="add-btn" onclick="confirmBooking()">
+                <i class="fab fa-whatsapp"></i> تأكيد الحجز عبر واتساب
+            </button>
         </div>
     </section>
 </main>
@@ -103,8 +105,12 @@
     <div class="cart-footer">
         <div class="total-box">المجموع: <span id="total-price">0</span> DA</div>
         <div class="cart-actions">
-            <button class="pay-btn" onclick="checkout('عند الاستلام')" style="background:#27ae60">دفع عند الاستلام</button>
-            <button class="pay-btn" onclick="checkout('البطاقة')" style="background:#2980b9">دفع بالبطاقة</button>
+            <button class="pay-btn" onclick="checkout('دفع عند الاستلام')" style="background:#27ae60">
+                <i class="fab fa-whatsapp"></i> دفع عند الاستلام
+            </button>
+            <button class="pay-btn" onclick="checkout('الدفع بالبطاقة')" style="background:#2980b9">
+                <i class="fab fa-whatsapp"></i> دفع بالبطاقة
+            </button>
             <button class="cancel-btn" onclick="clearCart()">إلغاء الطلب</button>
         </div>
     </div>
