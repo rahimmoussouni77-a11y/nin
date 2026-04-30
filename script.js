@@ -1,4 +1,5 @@
 let cart = [];
+const WHATSAPP_NUMBER = "213558773310";
 
 function openTab(tabId) {
     const contents = document.getElementsByClassName('tab-content');
@@ -15,7 +16,6 @@ function openTab(tabId) {
     document.getElementById(tabId).style.display = 'block';
     document.getElementById(tabId).classList.add('active');
 
-    // تفعيل الزر المناسب
     if(tabId === 'cafe') document.getElementById('btn-cafe').classList.add('active');
     if(tabId === 'studio') document.getElementById('btn-studio').classList.add('active');
     if(tabId === 'booking') document.getElementById('btn-booking').classList.add('active');
@@ -34,13 +34,20 @@ function addItem(name, price) {
 
 function updateCart() {
     const list = document.getElementById('cart-list');
-    list.innerHTML = cart.map(item => `
+    list.innerHTML = cart.map((item, index) => `
         <div class="cart-item">
             <span>${item.name}</span>
             <b>${item.price} DA</b>
+            <button onclick="removeItem(${index})" style="background:none;border:none;color:red;cursor:pointer;font-size:16px;">✕</button>
         </div>
     `).join('');
     document.getElementById('total-price').innerText = cart.reduce((a, b) => a + b.price, 0);
+}
+
+function removeItem(index) {
+    cart.splice(index, 1);
+    document.getElementById('count').innerText = cart.length;
+    updateCart();
 }
 
 function clearCart() {
@@ -54,7 +61,21 @@ function clearCart() {
 
 function checkout(method) {
     if(cart.length === 0) return alert("السلة فارغة!");
-    alert("تم الطلب بنجاح عبر " + method);
+
+    const total = cart.reduce((a, b) => a + b.price, 0);
+    const itemsList = cart.map(item => `• ${item.name} - ${item.price} DA`).join('\n');
+
+    const message =
+`🛒 *طلب جديد - Créative World*
+━━━━━━━━━━━━━━━
+${itemsList}
+━━━━━━━━━━━━━━━
+💰 *المجموع: ${total} DA*
+💳 *طريقة الدفع: ${method}*`;
+
+    const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappURL, '_blank');
+
     cart = [];
     document.getElementById('count').innerText = 0;
     updateCart();
@@ -62,10 +83,32 @@ function checkout(method) {
 }
 
 function confirmBooking() {
-    const name = document.getElementById('res-name').value;
+    const name = document.getElementById('res-name').value.trim();
     const time = document.getElementById('res-time').value;
-    if(!name || !time) return alert("أكمل البيانات");
-    alert("تم حجز طاولة لـ " + name + " في " + time);
+    const phone = document.getElementById('res-phone').value.trim();
+
+    if(!name || !time || !phone) return alert("أكمل جميع البيانات (الاسم، الرقم، والوقت)");
+
+    const dateObj = new Date(time);
+    const formattedDate = dateObj.toLocaleDateString('ar-DZ', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    const formattedTime = dateObj.toLocaleTimeString('ar-DZ', { hour: '2-digit', minute: '2-digit' });
+
+    const message =
+`📅 *حجز طاولة جديد - Créative World*
+━━━━━━━━━━━━━━━
+👤 *الاسم:* ${name}
+📞 *رقم الهاتف:* ${phone}
+📆 *التاريخ:* ${formattedDate}
+🕐 *الوقت:* ${formattedTime}
+━━━━━━━━━━━━━━━
+يرجى تأكيد الحجز 🙏`;
+
+    const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappURL, '_blank');
+
+    document.getElementById('res-name').value = '';
+    document.getElementById('res-time').value = '';
+    document.getElementById('res-phone').value = '';
 }
 
 function toggleCart() { document.getElementById('cart').classList.toggle('active'); }
@@ -73,7 +116,8 @@ function toggleCart() { document.getElementById('cart').classList.toggle('active
 function previewImage(event) {
     const reader = new FileReader();
     reader.onload = function() {
-        document.getElementById('preview-container').innerHTML = `<img src="${reader.result}" style="width:150px; border-radius:10px; margin-top:10px;">`;
+        document.getElementById('preview-container').innerHTML =
+            `<img src="${reader.result}" style="width:150px; border-radius:10px; margin-top:10px;">`;
     }
     reader.readAsDataURL(event.target.files[0]);
 }
